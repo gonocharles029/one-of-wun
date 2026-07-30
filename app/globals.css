@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gold: #B8912F;
+  --color-bone: #F7F5F0;
+  --color-stone: #6B6B63;
+  --font-display: var(--font-fraunces), serif;
+  --font-body: var(--font-work-sans), sans-serif;
+  --tracking-widest2: 0.25em;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #ffffff;
+  color: #121212;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
