@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { createClient } from "@supabase/supabase-js";
+import { supabase } from "@/lib/supabase";
 
 interface Product {
   id: string;
@@ -29,10 +29,6 @@ interface DatabaseProduct {
   is_sold?: boolean;
   sold?: boolean;
 }
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://pdnwwumqabgkcsorronh.supabase.co";
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export default function AdminDashboard() {
   // Supabase Auth State
@@ -333,16 +329,14 @@ export default function AdminDashboard() {
     );
   }
 
-  // 🔒 RESTRICTED ADMIN LOCK SCREEN (Matches About Page Design Ethos)
+  // 🔒 RESTRICTED ADMIN LOCK SCREEN
   if (!session) {
     return (
       <main className="min-h-screen bg-black text-white pt-28 pb-20 px-4 sm:px-8 selection:bg-white selection:text-black flex items-center justify-center">
         <div className="w-full max-w-md bg-neutral-950 border border-white/10 p-8 sm:p-10 rounded-3xl space-y-8 shadow-2xl relative overflow-hidden">
           
-          {/* Subtle Ambient Glow */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-1 bg-white/20 blur-sm rounded-full" />
 
-          {/* Editorial Badge & Header */}
           <div className="text-center space-y-4">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-xl">
               <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
@@ -356,11 +350,10 @@ export default function AdminDashboard() {
             </h1>
 
             <p className="text-xs text-neutral-400 font-medium leading-relaxed">
-              This area is strictly reserved for ONE.OF.WUN curators and administrators. Please sign in with your Sceret credentials.
+              This area is strictly reserved for ONE.OF.WUN curators and administrators. Please sign in with your credentials.
             </p>
           </div>
 
-          {/* Login Form */}
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-1">
               <label className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">
@@ -405,7 +398,6 @@ export default function AdminDashboard() {
             </button>
           </form>
 
-          {/* Storefront Link */}
           <div className="text-center pt-2 border-t border-white/10">
             <Link
               href="/products"
@@ -424,7 +416,6 @@ export default function AdminDashboard() {
     <main className="min-h-screen bg-black text-white pt-28 pb-20 px-4 sm:px-8 selection:bg-white selection:text-black">
       <div className="max-w-7xl mx-auto space-y-10">
         
-        {/* Header Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
           <div>
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-xl mb-3">
@@ -455,7 +446,6 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Feedback Alert */}
         {message && (
           <div
             className={`p-4 rounded-2xl border text-xs font-bold tracking-wide transition-all ${
@@ -468,10 +458,8 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* GRID LAYOUT: POST DROP FORM + LIVE CATALOG */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
-          {/* COLUMN 1: POST DROP FORM (5 cols) */}
           <div className="lg:col-span-5 bg-neutral-950 border border-white/10 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl h-fit">
             <div>
               <h2 className="text-xl font-black uppercase tracking-wider text-white">
@@ -531,7 +519,6 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              {/* IMAGE UPLOADER SECTION */}
               <div className="space-y-2">
                 <label className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">
                   Product Image (Upload Photo)
@@ -610,7 +597,6 @@ export default function AdminDashboard() {
             </form>
           </div>
 
-          {/* COLUMN 2: INVENTORY LIST & STATUS TOGGLES (7 cols) */}
           <div className="lg:col-span-7 space-y-4">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-black uppercase tracking-wider text-white">
